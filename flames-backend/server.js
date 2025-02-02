@@ -8,7 +8,7 @@ const PORT = 5000;
 
 // Middleware
 app.use(cors({
-    origin: ["https://flamesvv.vercel.app/"],
+    origin: ["https://flamesvv.vercel.app"],
     methods: ["POST", "GET"],
     credentials: true
 }));
