@@ -11,14 +11,10 @@ function App() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!name1.trim() || !name2.trim()) {
-            setError('Please enter both names.');
-            return;
-        }
         setLoading(true);
         setError('');
         try {
-            const response = await axios.post('https://flames-gules.vercel.app/flames', { name1, name2 });
+            const response = await axios.post('http://localhost:5000/flames', { name1, name2 });
             setResult(response.data.result[0]);
         } catch (error) {
             setError('An error occurred. Please try again.');
@@ -32,7 +28,7 @@ function App() {
         <div className="App">
             <div className="container">
                 <h1>FLAMES Game</h1>
-                <p className="subtitle">Discover your relationship status with your loved one!!</p>
+                <p className="subtitle">Discover your relationship status with your loved one!</p>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
