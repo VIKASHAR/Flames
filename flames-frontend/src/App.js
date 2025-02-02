@@ -11,10 +11,14 @@ function App() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!name1.trim() || !name2.trim()) {
+            setError('Please enter both names.');
+            return;
+        }
         setLoading(true);
         setError('');
         try {
-            const response = await axios.post('https://flames-gules.vercel.app', { name1, name2 });
+            const response = await axios.post('https://flames-gules.vercel.app/flames', { name1, name2 });
             setResult(response.data.result[0]);
         } catch (error) {
             setError('An error occurred. Please try again.');
