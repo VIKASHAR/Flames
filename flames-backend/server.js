@@ -13,8 +13,7 @@ const corsOptions = {
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 };
-
-app.use(cors(corsOptions));
+app.options('/flames', cors(corsOptions)); // Explicitly handle preflight requests for the /flames endpoint
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
