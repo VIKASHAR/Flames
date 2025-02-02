@@ -32,7 +32,7 @@ function App() {
         <div className="App">
             <div className="container">
                 <h1>FLAMES Game</h1>
-                <p className="subtitle">Discover your relationship status with your loved one!</p>
+                <p className="subtitle">Discover your relationship status with your loved one!!</p>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
