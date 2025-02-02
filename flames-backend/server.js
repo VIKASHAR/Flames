@@ -118,7 +118,14 @@ app.post('/flames', async (req, res) => {
     }
 });
 
+// Health Check Endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'OK', message: 'Server is running' });
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+module.exports = app; // Export for Vercel deployment
