@@ -7,7 +7,14 @@ const app = express();
 const PORT = 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors(
+    {
+        origin: ["https://deploy-mern-1whq.vercel.app"],
+        methods: ["POST", "GET"],
+        Credentials: true
+    }
+    
+));
 app.use(bodyParser.json());
 
 // MongoDB Connection
