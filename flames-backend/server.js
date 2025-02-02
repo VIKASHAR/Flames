@@ -9,13 +9,12 @@ const PORT = 5000;
 // Middleware
 const corsOptions = {
     origin: "https://flamesvv.vercel.app", // Ensure this matches your frontend's exact URL
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "OPTIONS"], // Add OPTIONS for preflight requests
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 };
 
 app.use(cors(corsOptions));
-
 app.use(bodyParser.json());
 
 // MongoDB Connection
@@ -81,25 +80,28 @@ const removeSpaces = (name) => {
     return name.replace(/\s/g, '');
 };
 
+// Handle preflight requests
+app.options('/flames', cors(corsOptions));
+
 // API Endpoint
 app.post('/flames', async (req, res) => {
-    const { name1, name2 } = req.body;
-
-    // Validate input names
-    if (!validateName(name1) || !validateName(name2)) {
-        return res.status(400).json({ error: 'Names should contain only alphabetic characters and spaces.' });
-    }
-
-    // Remove spaces from names before processing
-    const name1WithoutSpaces = removeSpaces(name1);
-    const name2WithoutSpaces = removeSpaces(name2);
-
-    // Calculate FLAMES result
-    const remainingLetters = getUniqueCharacterCount(name1WithoutSpaces.toLowerCase(), name2WithoutSpaces.toLowerCase());
-    const result = getFlamesResult(remainingLetters);
-
-    // Save data to MongoDB
     try {
+        const { name1, name2 } = req.body;
+
+        // Validate input names
+        if (!validateName(name1) || !validateName(name2)) {
+            return res.status(400).json({ error: 'Names should contain only alphabetic characters and spaces.' });
+        }
+
+        // Remove spaces from names before processing
+        const name1WithoutSpaces = removeSpaces(name1);
+        const name2WithoutSpaces = removeSpaces(name2);
+
+        // Calculate FLAMES result
+        const remainingLetters = getUniqueCharacterCount(name1WithoutSpaces.toLowerCase(), name2WithoutSpaces.toLowerCase());
+        const result = getFlamesResult(remainingLetters);
+
+        // Save data to MongoDB
         const flamesEntry = new Flames({
             name1,
             name2,
@@ -107,13 +109,13 @@ app.post('/flames', async (req, res) => {
         });
         await flamesEntry.save();
         console.log('Data saved to MongoDB:', flamesEntry);
-    } catch (err) {
-        console.error('Error saving data to MongoDB:', err);
-        return res.status(500).json({ error: 'An error occurred while saving data.' });
-    }
 
-    // Send response
-    res.json({ result });
+        // Send response
+        res.json({ result });
+    } catch (err) {
+        console.error('Error in /flames endpoint:', err);
+        res.status(500).json({ error: 'An internal server error occurred.' });
+    }
 });
 
 // Start Server
