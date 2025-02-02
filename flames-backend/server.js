@@ -15,7 +15,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions)); // Apply CORS middleware
-
+app.options('/flames', cors(corsOptions)); // Explicitly handle preflight requests for the /flames endpoint
 app.use(bodyParser.json()); // Parse JSON request bodies
 
 // MongoDB Connection
