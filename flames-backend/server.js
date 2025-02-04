@@ -8,12 +8,20 @@ const PORT = 5000;
 
 // Middleware
 app.use(cors({
-    origin: 'https://flamesvv.vercel.app/flames',
-    methods: ['POST', 'GET', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+    origin: 'https://flamesvv.vercel.app', // Allow requests from this origin
+    methods: ['POST', 'GET', 'OPTIONS'], // Allow these HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
+    credentials: true // Allow credentials (if needed)
 }));
 app.use(bodyParser.json());
+
+app.options('/flames', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://flamesvv.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(204); // No content
+});
 
 // MongoDB Connection
 const mongoURI = 'mongodb+srv://vikash:sajH5tUv9ffAhSXx@cluster0.ra5ts.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
