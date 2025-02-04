@@ -15,6 +15,13 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
+app.options('*', cors({
+    origin: 'https://flamesvv.vercel.app',
+    methods: ['POST', 'GET', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
+
 // MongoDB Connection
 const mongoURI = 'mongodb+srv://vikash:sajH5tUv9ffAhSXx@cluster0.ra5ts.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
