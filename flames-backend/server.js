@@ -4,23 +4,16 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: 'https://flames-gules.vercel.app',
+    origin: 'https://flamesvv.vercel.app',
     methods: ['POST', 'GET', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
 app.use(bodyParser.json());
-
-app.options('*', cors({
-    origin: 'https://flames-gules.vercel.app',
-    methods: ['POST', 'GET', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-}));
 
 // MongoDB Connection
 const mongoURI = 'mongodb+srv://vikash:sajH5tUv9ffAhSXx@cluster0.ra5ts.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
